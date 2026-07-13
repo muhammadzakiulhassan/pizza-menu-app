@@ -77,11 +77,17 @@ function Menu() {
       <h2>Our menu</h2>
 
       {numPizzas > 0 ? (
-        <ul>
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven,all organic, all delicious
+          </p>
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We're still workig on our menu.Please come back later:</p>
       )}
@@ -102,15 +108,21 @@ function Menu() {
   );
 }
 
-function Pizza({pizzaObj}) {
+function Pizza({ pizzaObj }) {
   console.log(pizzaObj);
-  if(pizzaObj.soldOut)return null
+  // if (pizzaObj.soldOut) return null;
   return (
-    <li className="pizza">
+    <li className={`pizza ${pizzaObj.soldOut?'sold-out':""}` }>
       <img src={pizzaObj.photoName} alt="Pizza spinaci" />
+      <div>
       <h3>{pizzaObj.name}</h3>
       <p>{pizzaObj.ingredients}</p>
-      <span>{pizzaObj.price + 3}</span>
+
+      {/* REFERENCE */}
+      {/* {pizzaObj.soldOut ? <span>SOLDOUT</span> : <span>{pizzaObj.price}</span>} */}
+
+      <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
+      </div>
     </li>
   );
 }
@@ -127,27 +139,36 @@ function Footer() {
   //   else alert("Sorry we're closed");
   // if (!isOpen)
   //   return (
-      // <p>
-      //   We're happy to welcome you between {openHour}:00.{closeHour}:00.{" "}
-      // </p>
+  // <p>
+  //   We're happy to welcome you between {openHour}:00.{closeHour}:00.{" "}
+  // </p>
   //   );
   return (
     <footer className="footer">
-      {isOpen ? <Order closeHour={closeHour} openHour={openHour}/>: <p>
-        We're happy to welcome you between {openHour}:00.{closeHour}:00.{" "}
-      </p>}
+      {isOpen ? (
+        <Order closeHour={closeHour} openHour={openHour} />
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00.{closeHour}:00.{" "}
+        </p>
+      )}
       {/* {new Date().toLocaleDateString()}.We're currently open */}
     </footer>
   );
   // return React.createElement('footer',null,'We are currently open')
 }
 
-function Order({closeHour,openHour}){
-  console.log(closeHour)
-return <div className="order">
-          <p>We're open from {openHour}:00 to {closeHour}:00. Come visit us or order online.</p>
-          <button className="btn">Order</button>
-        </div>
+function Order({ closeHour, openHour }) {
+  console.log(closeHour);
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
+        online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
+  );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
